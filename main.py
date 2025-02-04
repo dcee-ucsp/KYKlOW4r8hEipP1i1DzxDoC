@@ -52,6 +52,7 @@ meses_texto = {
     11: "once meses",
     12: "doce meses"
 }
+periodo_pract_texto = meses_texto[periodo_pract]
 
 # Función para reemplazar texto en párrafos y tablas
 def reemplazar_texto(doc, marcador, nuevo_texto):
@@ -93,7 +94,7 @@ if st.button("Generar Documento"):
     reemplazar_texto(doc, "{{NOMBRE_ALUMNO}}", nombre)
     reemplazar_texto(doc, "{{DNI_ALUMNO}}", dni_est)
     reemplazar_texto(doc, "{{TIPO_PRACTICAS}}", tipo_practicas)
-    reemplazar_texto(doc, "{{PERIODO_MESES}}", meses_texto)
+    reemplazar_texto(doc, "{{PERIODO_MESES}}", periodo_pract_texto)
     
     # Guardar en un buffer en memoria
     buffer = BytesIO()
