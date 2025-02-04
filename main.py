@@ -2,11 +2,22 @@ import streamlit as st
 from docx import Document
 from io import BytesIO
 
-st.title("Generador de Documentos")
+st.title("Carta de presentación")
 
-# Entrada de usuario
-nombre = st.text_input("Ingrese su nombre:")
-evento = st.text_input("Ingrese el nombre del evento:")
+# Ingresar texto
+st.subheader("Datos generales", divider=True)
+correlativo = st.number_input("Correlativo", step=1) 
+fecha = st.date_input("Fecha de emisión", value="today")
+
+st.subheader("Datos del alumno", divider=True)
+nombre = st.text_input("Nombre del alumno")
+dni_est = st.text_input("Ingrese el DNI del alumno")
+genero_est = st.radio("Genero del estudiante",["Masculino", "Femenino"])
+semestre_alumno = st.radio("Semestre",["septimo", "octavo", "noveno", "decimo", "egresado")
+
+referencia = st.radio("Referencia",["Señor", "Señora", "Señorita", "Estimado", "Estimada"])
+nombre_empleador = st.text_input("Nombre del empleador")
+cargo_empleador = st.text_input("Cargo del empleador")
 
 if st.button("Generar Documento"):
     # Cargar documento base
