@@ -3,6 +3,10 @@ from docx import Document
 from docx.shared import Pt
 from io import BytesIO
 import time
+import random
+from docx2pdf import convert
+import os
+import tempfile
 
 st.title("Carta de presentación")
 
@@ -46,15 +50,35 @@ meses_texto = {
 }
 periodo_pract_texto = meses_texto[periodo_pract]
 
-# Función para reemplazar texto avanzada
+def get_random_step():
+    steps = [
+        "Tomando un café ☕",
+        "Visitando la cafetería 🍽️",
+        "Lavando los platos 🍽️",
+        "Regando las plantas 🌱",
+        "Ordenando el escritorio 📚",
+        "Alimentando al gato 🐱",
+        "Haciendo ejercicio 🏃",
+        "Meditando un momento 🧘",
+        "Revisando el correo 📧",
+        "Estirando los brazos 💪"
+    ]
+    return random.choice(steps)
+
+def cook_breakfast():
+    msg = st.toast('📜 Preparando el documento...')
+    time.sleep(1)
+    msg.toast(get_random_step())
+    time.sleep(1)
+    msg.toast('✅ Documento listo para descargar', icon="📄")
+
+# Formateo
+
 def reemplazar_texto(doc, marcador, nuevo_texto):
-    # Reemplazar en párrafos
     for paragraph in doc.paragraphs:
         if marcador in paragraph.text:
-            # Reemplazar todo el párrafo
             paragraph.text = paragraph.text.replace(marcador, str(nuevo_texto))
     
-    # Reemplazar en tablas
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
@@ -62,10 +86,9 @@ def reemplazar_texto(doc, marcador, nuevo_texto):
                     if marcador in paragraph.text:
                         paragraph.text = paragraph.text.replace(marcador, str(nuevo_texto))
 
-# Función para establecer estilo de fuente
 def set_font_style(doc):
     times_new_roman_font = 'Times New Roman'
-    font_size = Pt(11)  # 11 point size
+    font_size = Pt(11)
     
     for paragraph in doc.paragraphs:
         for run in paragraph.runs:
@@ -80,22 +103,18 @@ def set_font_style(doc):
                         run.font.name = times_new_roman_font
                         run.font.size = font_size
 
-# Función visual de carga
-def cook_breakfast():
-    msg = st.toast('📜 Preparando el documento...')
-    time.sleep(1)
-    msg.toast('✍🏼 Reemplazando texto...')
-    time.sleep(1)
-    msg.toast('✅ Documento listo para descargar', icon="📄")
+def generate_filename(correlativo, year, nombre_alumno, nombre_empresa):
+    nombre_alumno = nombre_alumno.split()[0]
+    nombre_empresa = nombre_empresa.split()[0]
+    return f"DIRADM-{correlativo}-{year}-{nombre_alumno}-{nombre_empresa}"
+
+# Reemplazo de valores
 
 if st.button("Generar Documento"):
-    # Simular proceso
     cook_breakfast()
 
-    # Cargar documento base
     doc = Document("Plantillas/plantilla_adm.docx")
 
-    # Reemplazar marcadores en el documento
     reemplazar_texto(doc, "{{CORRELATIVO}}", correlativo)
     reemplazar_texto(doc, "{{ANIO}}", fecha.year)
     reemplazar_texto(doc, "{{FECHA_LARGA}}", fecha_larga)
@@ -110,18 +129,40 @@ if st.button("Generar Documento"):
     reemplazar_texto(doc, "{{TIPO_PRACTICAS}}", tipo_practicas)
     reemplazar_texto(doc, "{{PERIODO_MESES}}", periodo_pract_texto)
     
-    # Establecer estilo de fuente después de reemplazos
     set_font_style(doc)
     
-    # Guardar en un buffer en memoria
-    buffer = BytesIO()
-    doc.save(buffer)
-    buffer.seek(0)
+    base_filename = generate_filename(correlativo, fecha.year, nombre, nombre_empresa)
+    
+    col1, col2 = st.columns(2)
+    
+    buffer_docx = BytesIO()
+    doc.save(buffer_docx)
+    buffer_docx.seek(0)
 
-    # Descargar el archivo
-    st.download_button(
-        label="📄 Descargar Documento",
-        data=buffer,
-        file_name="documento_personalizado.docx",
-        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    )
+# Botones de descarga
+    
+    with col1:
+        st.download_button(
+            label="📄 Descargar DOCX",
+            data=buffer_docx,
+            file_name=f"{base_filename}.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+    
+    with col2:
+        with tempfile.NamedTemporaryFile(suffix='.docx', delete=False) as tmp_docx:
+            doc.save(tmp_docx.name)
+            pdf_path = tmp_docx.name.replace('.docx', '.pdf')
+            convert(tmp_docx.name, pdf_path)
+            
+            with open(pdf_path, 'rb') as pdf_file:
+                pdf_data = pdf_file.read()
+                st.download_button(
+                    label="📑 Descargar PDF",
+                    data=pdf_data,
+                    file_name=f"{base_filename}.pdf",
+                    mime="application/pdf"
+                )
+            
+            os.unlink(tmp_docx.name)
+            os.unlink(pdf_path)
