@@ -16,6 +16,7 @@ nombre = st.text_input("Nombre del alumno")
 dni_est = st.text_input("Ingrese el DNI del alumno")
 genero_est = st.radio("Género del estudiante", ["Masculino", "Femenino"])
 semestre_alumno = st.selectbox("Semestre", ("séptimo", "octavo", "noveno", "décimo", "egresado"))
+periodo_pract = st.slider("Periodo de prácticas (meses)", 1, 12)
 
 st.subheader("Datos del empleador", divider=True)
 nombre_empresa = st.text_input("Nombre de la empresa")
@@ -35,6 +36,22 @@ gen_alumn = "el alumno" if genero_est == "Masculino" else "la alumna"
 
 # Semestre del alumno
 reemplazo_semestre = f"del {semestre_alumno}" if semestre_alumno != "egresado" else "egresado"
+
+# Texto meses
+meses_texto = {
+    1: "un mes",
+    2: "dos meses",
+    3: "tres meses",
+    4: "cuatro meses",
+    5: "cinco meses",
+    6: "seis meses",
+    7: "siete meses",
+    8: "ocho meses",
+    9: "nueve meses",
+    10: "diez meses",
+    11: "once meses",
+    12: "doce meses"
+}
 
 # Función para reemplazar texto en párrafos y tablas
 def reemplazar_texto(doc, marcador, nuevo_texto):
@@ -75,9 +92,9 @@ if st.button("Generar Documento"):
     reemplazar_texto(doc, "{{SEM_ALUM}}", reemplazo_semestre)
     reemplazar_texto(doc, "{{NOMBRE_ALUMNO}}", nombre)
     reemplazar_texto(doc, "{{DNI_ALUMNO}}", dni_est)
-    reemplazar_texto(doc, "{{TIPO_PRACTICAS}}", dni_est)
+    reemplazar_texto(doc, "{{TIPO_PRACTICAS}}", tipo_practicas)
+    reemplazar_texto(doc, "{{PERIODO_MESES}}", meses_texto)
     
-
     # Guardar en un buffer en memoria
     buffer = BytesIO()
     doc.save(buffer)
