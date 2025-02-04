@@ -1,5 +1,6 @@
 import streamlit as st
 from docx import Document
+from docx.shared import Pt
 from io import BytesIO
 import time
 
@@ -39,32 +40,44 @@ reemplazo_semestre = f"del {semestre_alumno}" if semestre_alumno != "egresado" e
 
 # Texto meses
 meses_texto = {
-    1: "un mes",
-    2: "dos meses",
-    3: "tres meses",
-    4: "cuatro meses",
-    5: "cinco meses",
-    6: "seis meses",
-    7: "siete meses",
-    8: "ocho meses",
-    9: "nueve meses",
-    10: "diez meses",
-    11: "once meses",
-    12: "doce meses"
+    1: "un mes", 2: "dos meses", 3: "tres meses", 4: "cuatro meses", 
+    5: "cinco meses", 6: "seis meses", 7: "siete meses", 8: "ocho meses", 
+    9: "nueve meses", 10: "diez meses", 11: "once meses", 12: "doce meses"
 }
 periodo_pract_texto = meses_texto[periodo_pract]
 
-# Función para reemplazar texto en párrafos y tablas
+# Función para reemplazar texto preservando formato
 def reemplazar_texto(doc, marcador, nuevo_texto):
-    for p in doc.paragraphs:
-        if marcador in p.text:
-            p.text = p.text.replace(marcador, str(nuevo_texto))  # Convertir a string por seguridad
-
+    for paragraph in doc.paragraphs:
+        for run in paragraph.runs:
+            if marcador in run.text:
+                run.text = run.text.replace(marcador, str(nuevo_texto))
+    
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
-                if marcador in cell.text:
-                    cell.text = cell.text.replace(marcador, str(nuevo_texto))
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        if marcador in run.text:
+                            run.text = run.text.replace(marcador, str(nuevo_texto))
+
+# Función para establecer estilo de fuente
+def set_font_style(doc):
+    times_new_roman_font = 'Times New Roman'
+    font_size = Pt(11)  # 11 point size
+    
+    for paragraph in doc.paragraphs:
+        for run in paragraph.runs:
+            run.font.name = times_new_roman_font
+            run.font.size = font_size
+    
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        run.font.name = times_new_roman_font
+                        run.font.size = font_size
 
 # Función visual de carga
 def cook_breakfast():
@@ -95,6 +108,9 @@ if st.button("Generar Documento"):
     reemplazar_texto(doc, "{{DNI_ALUMNO}}", dni_est)
     reemplazar_texto(doc, "{{TIPO_PRACTICAS}}", tipo_practicas)
     reemplazar_texto(doc, "{{PERIODO_MESES}}", periodo_pract_texto)
+    
+    # Establecer estilo de fuente después de reemplazos
+    set_font_style(doc)
     
     # Guardar en un buffer en memoria
     buffer = BytesIO()
