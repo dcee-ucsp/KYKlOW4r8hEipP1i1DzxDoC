@@ -4,9 +4,6 @@ from docx.shared import Pt
 from io import BytesIO
 import time
 import random
-from docx2pdf import convert
-import os
-import tempfile
 
 st.title("Carta de presentación")
 
@@ -133,36 +130,13 @@ if st.button("Generar Documento"):
     
     base_filename = generate_filename(correlativo, fecha.year, nombre, nombre_empresa)
     
-    col1, col2 = st.columns(2)
-    
     buffer_docx = BytesIO()
     doc.save(buffer_docx)
     buffer_docx.seek(0)
-
-# Botones de descarga
     
-    with col1:
-        st.download_button(
-            label="📄 Descargar DOCX",
-            data=buffer_docx,
-            file_name=f"{base_filename}.docx",
-            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        )
-    
-    with col2:
-        with tempfile.NamedTemporaryFile(suffix='.docx', delete=False) as tmp_docx:
-            doc.save(tmp_docx.name)
-            pdf_path = tmp_docx.name.replace('.docx', '.pdf')
-            convert(tmp_docx.name, pdf_path)
-            
-            with open(pdf_path, 'rb') as pdf_file:
-                pdf_data = pdf_file.read()
-                st.download_button(
-                    label="📑 Descargar PDF",
-                    data=pdf_data,
-                    file_name=f"{base_filename}.pdf",
-                    mime="application/pdf"
-                )
-            
-            os.unlink(tmp_docx.name)
-            os.unlink(pdf_path)
+    st.download_button(
+        label="📄 Descargar DOCX",
+        data=buffer_docx,
+        file_name=f"{base_filename}.docx",
+        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
