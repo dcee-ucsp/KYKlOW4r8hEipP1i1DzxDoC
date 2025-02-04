@@ -60,7 +60,7 @@ if st.button("Generar Documento"):
     cook_breakfast()
 
     # Cargar documento base
-    doc = Document("plantilla.docx")
+    doc = Document("Plantillas/plantilla_adm.docx")
 
     # Reemplazar marcadores en el documento
     reemplazar_texto(doc, "{{CORRELATIVO}}", correlativo)
