@@ -9,6 +9,7 @@ st.title("Carta de presentación")
 st.subheader("Datos generales", divider=True)
 correlativo = st.number_input("Correlativo", step=1) 
 fecha = st.date_input("Fecha de emisión")
+tipo_practicas = st.radio("Tipo de prácticas", ["Pre-profesionales", "Profesionales"])
 
 st.subheader("Datos del alumno", divider=True)
 nombre = st.text_input("Nombre del alumno")
@@ -74,6 +75,8 @@ if st.button("Generar Documento"):
     reemplazar_texto(doc, "{{SEM_ALUM}}", reemplazo_semestre)
     reemplazar_texto(doc, "{{NOMBRE_ALUMNO}}", nombre)
     reemplazar_texto(doc, "{{DNI_ALUMNO}}", dni_est)
+    reemplazar_texto(doc, "{{TIPO_PRACTICAS}}", dni_est)
+    
 
     # Guardar en un buffer en memoria
     buffer = BytesIO()
