@@ -46,20 +46,21 @@ meses_texto = {
 }
 periodo_pract_texto = meses_texto[periodo_pract]
 
-# Función para reemplazar texto preservando formato
+# Función para reemplazar texto avanzada
 def reemplazar_texto(doc, marcador, nuevo_texto):
+    # Reemplazar en párrafos
     for paragraph in doc.paragraphs:
-        for run in paragraph.runs:
-            if marcador in run.text:
-                run.text = run.text.replace(marcador, str(nuevo_texto))
+        if marcador in paragraph.text:
+            # Reemplazar todo el párrafo
+            paragraph.text = paragraph.text.replace(marcador, str(nuevo_texto))
     
+    # Reemplazar en tablas
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
                 for paragraph in cell.paragraphs:
-                    for run in paragraph.runs:
-                        if marcador in run.text:
-                            run.text = run.text.replace(marcador, str(nuevo_texto))
+                    if marcador in paragraph.text:
+                        paragraph.text = paragraph.text.replace(marcador, str(nuevo_texto))
 
 # Función para establecer estilo de fuente
 def set_font_style(doc):
