@@ -129,7 +129,7 @@ if st.button("Generar Documento", disabled=not dt_compt):
     
     set_font_style(doc)
     
-    base_filename = f"DIRADM - {correlativo} - {year} - {nombre} - {nombre_empresa}"
+    base_filename = f"DIRADM - {correlativo} - {fecha.year} - {nombre} - {nombre_empresa}"
     
     buffer_docx = BytesIO()
     doc.save(buffer_docx)
