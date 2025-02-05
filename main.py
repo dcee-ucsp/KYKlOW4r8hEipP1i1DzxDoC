@@ -9,7 +9,7 @@ st.title("Carta de presentación")
 
 # Ingresar texto
 st.subheader("Datos generales", divider=True)
-correlativo = st.number_input("Correlativo", step=1) 
+correlativo = st.number_input("Correlativo", step=1)
 fecha = st.date_input("Fecha de emisión")
 tipo_practicas = st.radio("Tipo de prácticas", ["Pre-profesionales", "Profesionales"])
 
@@ -32,6 +32,9 @@ meses = {
     7: "julio", 8: "agosto", 9: "septiembre", 10: "octubre", 11: "noviembre", 12: "diciembre"
 }
 fecha_larga = f"{fecha.day} de {meses[fecha.month]} del {fecha.year}"
+
+# Fill correlativo
+correlativo = str(int(correlativo)).zfill(3)
 
 # Conversión género
 gen_alumn = "el alumno" if genero_est == "Masculino" else "la alumna"
