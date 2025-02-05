@@ -100,11 +100,6 @@ def set_font_style(doc):
                         run.font.name = times_new_roman_font
                         run.font.size = font_size
 
-def generate_filename(correlativo, year, nombre_alumno, nombre_empresa):
-    nombre_alumno = nombre_alumno.split()[0]
-    nombre_empresa = nombre_empresa.split()[0]
-    return f"DIRADM-{correlativo}-{year}-{nombre_alumno}-{nombre_empresa}"
-
 # Reemplazo de valores
 
 if st.button("Generar Documento"):
@@ -128,7 +123,7 @@ if st.button("Generar Documento"):
     
     set_font_style(doc)
     
-    base_filename = generate_filename(correlativo, fecha.year, nombre, nombre_empresa)
+    base_filename = f"DIRADM - {correlativo} - {year} - {nombre} - {nombre_empresa}"
     
     buffer_docx = BytesIO()
     doc.save(buffer_docx)
