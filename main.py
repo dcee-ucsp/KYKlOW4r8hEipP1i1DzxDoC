@@ -9,7 +9,7 @@ st.title("Carta de presentación")
 
 # Ingresar texto
 st.subheader("Datos generales", divider=True)
-correlativo = st.number_input("Correlativo", step=1)
+correlativo = st.number_input("Correlativo", step=1, min_value=0))
 fecha = st.date_input("Fecha de emisión")
 tipo_practicas = st.radio("Tipo de prácticas", ["Pre-profesionales", "Profesionales"])
 
@@ -105,7 +105,10 @@ def set_font_style(doc):
 
 # Reemplazo de valores
 
-if st.button("Generar Documento"):
+dt_compt = all([correlativo, fecha, tipo_practicas, nombre, dni_est, genero_est, semestre_alumno,
+    periodo_pract, nombre_empresa, referencia, nombre_empleador, cargo_empleador])
+
+if st.button("Generar Documento", disabled=not dt_compt):
     cook_breakfast()
 
     doc = Document("Plantillas/plantilla_adm.docx")
