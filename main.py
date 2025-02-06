@@ -137,7 +137,7 @@ if st.button("Generar Documento", disabled=not dt_compt):
     
     set_font_style(doc)
     
-    doc_nom = f"{'DIRADM' if escuela == 'Administración de Negocios' else 'DIRCONT'} - {correlativo} - {fecha.year} - {nombre} - {nombre_empresa}"
+    doc_nom = f"{'DIRADM' if escuela == 'Administración de negocios' else 'DIRCONT'} - {correlativo} - {fecha.year} - {nombre} - {nombre_empresa}"
     
     buffer_docx = BytesIO()
     doc.save(buffer_docx)
