@@ -70,11 +70,14 @@ elif escuela == "Administración de negocios":
 # Tabla de resumen
 
 df = pd.DataFrame([{
-    "CODIGO DE CARTA": f"{'DIRADM' if escuela == 'Administración de Negocios' else 'DIRCONT'}-{correlativo}-{fecha.year}",
+    "CODIGO DE CARTA": f"{'DIRADM' if escuela == 'Administración de negocios' else 'DIRCONT'} {correlativo}-{fecha.year}",
     "ALUMNOS": nombre,
-    "A QUIEN VA DIRIGIDA": f"{referencia} {nombre_empleador}",
-    "TIPO DE CARTA - ASUNTO": f"Carta de {tipo_practicas}",
-    "FECHA": fecha.strftime("%d/%m/%Y")  # Formato de fecha DD/MM/YYYY
+    "A QUIEN VA DIRIGIDA": nombre_empresa,
+
+    "Prácticas profesionales" if tipo_practicas == "Pre-profesionales" else "Prácticas preprofesionales"
+
+    "TIPO DE CARTA - ASUNTO": ,
+    "FECHA": fecha.strftime("%d/%m/%Y")
 }])
 
 def get_random_step():
@@ -155,7 +158,7 @@ if st.button("Generar Documento", disabled=not dt_compt):
     
     set_font_style(doc)
 
-    # Mostrar DataFrame en Streamlit
+    
     st.dataframe(df)
     
     doc_nom = f"{'DIRADM' if escuela == 'Administración de negocios' else 'DIRCONT'} - {correlativo} - {fecha.year} - {nombre} - {nombre_empresa}"
