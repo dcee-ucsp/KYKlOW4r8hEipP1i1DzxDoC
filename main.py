@@ -51,6 +51,14 @@ meses_texto = {
 }
 periodo_pract_texto = meses_texto[periodo_pract]
 
+# Identif.
+
+identificacion = (
+    "Identificado" if genero_est == "Masculino" else "Identificada"
+    if escuela == "Contabilidad"
+    else "identificado" if genero_est == "Masculino" else "identificada"
+)
+
 # Plantilla
 
 if escuela == "Contabilidad":
@@ -132,7 +140,7 @@ if st.button("Generar Documento", disabled=not dt_compt):
     reemplazar_texto(doc, "{{DNI_ALUMNO}}", dni_est)
     reemplazar_texto(doc, "{{TIPO_PRACTICAS}}", tipo_practicas)
     reemplazar_texto(doc, "{{PERIODO_MESES}}", periodo_pract_texto)
-    reemplazar_texto(doc, "{{IDENT}}", "Identificado" if genero_est == "Masculino" else "Identificada")
+    reemplazar_texto(doc, "{{IDENT}}", identificacion)
     
     set_font_style(doc)
     
