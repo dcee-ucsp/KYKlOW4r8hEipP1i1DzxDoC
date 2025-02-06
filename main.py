@@ -41,7 +41,7 @@ correlativo = str(int(correlativo)).zfill(3)
 gen_alumn = ("el alumno" if genero_est == "Masculino" else "la alumna") if escuela == "Administración de Negocios" else ("El alumno" if genero_est == "Masculino" else "La alumna")
 
 # Semestre del alumno
-reemplazo_semestre = f"del {semestre_alumno}" if semestre_alumno != "egresado" else "egresado"
+reemplazo_semestre = f"del {semestre_alumno} semestre" if semestre_alumno != "egresado" else ("egresado" if genero_est == "Masculino" else "egresada")
 
 # Texto meses
 meses_texto = {
