@@ -10,6 +10,7 @@ st.title("Generador de cartas de presentación")
 # Ingresar texto
 st.subheader("Datos generales", divider=True)
 escuela = st.radio("Escuela profesional", ["Administración de negocios", "Contabilidad"])
+st.write(f"Escuela seleccionada: {escuela}")
 correlativo = st.number_input("Correlativo", step=1, min_value=0)
 fecha = st.date_input("Fecha de emisión")
 tipo_practicas = st.radio("Tipo de prácticas", ["Pre-profesionales", "Profesionales"])
