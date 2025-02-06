@@ -38,7 +38,7 @@ fecha_larga = f"{fecha.day} de {meses[fecha.month]} del {fecha.year}"
 correlativo = str(int(correlativo)).zfill(3)
 
 # Conversión género
-gen_alumn = ("el alumno" if genero_est == "Masculino" else "la alumna") if escuela == "Administración de Negocios" else ("El alumno" if genero_est == "Masculino" else "La alumna")
+gen_alumn = ("el alumno" if genero_est == "Masculino" else "la alumna") if escuela == "Administración de negocios" else ("El alumno" if genero_est == "Masculino" else "La alumna")
 
 # Semestre del alumno
 reemplazo_semestre = f"del {semestre_alumno} semestre" if semestre_alumno != "egresado" else ("egresado" if genero_est == "Masculino" else "egresada")
