@@ -112,10 +112,10 @@ dt_compt = all([correlativo, fecha, tipo_practicas, nombre, dni_est, genero_est,
 if st.button("Generar Documento", disabled=not dt_compt):
     cook_breakfast()
 
-    if escuela == "Administración de Negocios":
-        doc = Document("Plantillas/plantilla_adm.docx")
-    else:
+    if escuela == "Contabilidad":
         doc = Document("Plantillas/plantilla_cont.docx")
+    else:
+        doc = Document("Plantillas/plantilla_adm.docx")
 
     reemplazar_texto(doc, "{{CORRELATIVO}}", correlativo)
     reemplazar_texto(doc, "{{ANIO}}", fecha.year)
