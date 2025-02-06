@@ -114,7 +114,7 @@ if st.button("Generar Documento", disabled=not dt_compt):
 
     if escuela == "Contabilidad":
         doc = Document("Plantillas/plantilla_cont.docx")
-    else:
+    elif escuela == "Administración de negocios":
         doc = Document("Plantillas/plantilla_adm.docx")
 
     reemplazar_texto(doc, "{{CORRELATIVO}}", correlativo)
