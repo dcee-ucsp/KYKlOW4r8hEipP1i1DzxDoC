@@ -13,8 +13,10 @@ escuela = st.radio("Escuela profesional", ["Administración de negocios", "Conta
 
 st.write(f"Escuela seleccionada: {escuela}")
 if escuela == "Contabilidad":
+    doc = Document("Plantillas/plantilla_cont.docx")
     st.write("Se seleccionó plantilla_cont.docx")
 elif escuela == "Administración de negocios":
+    doc = Document("Plantillas/plantilla_adm.docx")
     st.write("Se seleccionó plantilla_adm.docx")
 
 correlativo = st.number_input("Correlativo", step=1, min_value=0)
@@ -118,12 +120,7 @@ dt_compt = all([correlativo, fecha, tipo_practicas, nombre, dni_est, genero_est,
 
 if st.button("Generar Documento", disabled=not dt_compt):
     cook_breakfast()
-
-    if escuela == "Contabilidad":
-        doc = Document("Plantillas/plantilla_cont.docx")
-    elif escuela == "Administración de negocios":
-        doc = Document("Plantillas/plantilla_adm.docx")
-
+    
     reemplazar_texto(doc, "{{CORRELATIVO}}", correlativo)
     reemplazar_texto(doc, "{{ANIO}}", fecha.year)
     reemplazar_texto(doc, "{{FECHA_LARGA}}", fecha_larga)
