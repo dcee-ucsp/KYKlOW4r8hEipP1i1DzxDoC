@@ -66,6 +66,16 @@ if escuela == "Contabilidad":
 elif escuela == "Administración de negocios":
     doc = Document("Plantillas/plantilla_adm.docx")
 
+# Tabla de resumen
+
+df = pd.DataFrame([{
+    "CODIGO DE CARTA": f"{'DIRADM' if escuela == 'Administración de Negocios' else 'DIRCONT'}-{correlativo}-{fecha.year}",
+    "ALUMNOS": nombre,
+    "A QUIEN VA DIRIGIDA": f"{referencia} {nombre_empleador}",
+    "TIPO DE CARTA - ASUNTO": f"Carta de {tipo_practicas}",
+    "FECHA": fecha.strftime("%d/%m/%Y")  # Formato de fecha DD/MM/YYYY
+}])
+
 def get_random_step():
     steps = [
         "Tomando un café ☕",
@@ -143,6 +153,9 @@ if st.button("Generar Documento", disabled=not dt_compt):
     reemplazar_texto(doc, "{{IDENT}}", identificacion)
     
     set_font_style(doc)
+
+    # Mostrar DataFrame en Streamlit
+    st.dataframe(df)
     
     doc_nom = f"{'DIRADM' if escuela == 'Administración de negocios' else 'DIRCONT'} - {correlativo} - {fecha.year} - {nombre} - {nombre_empresa}"
     
