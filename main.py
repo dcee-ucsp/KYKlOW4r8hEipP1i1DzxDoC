@@ -73,10 +73,7 @@ df = pd.DataFrame([{
     "CODIGO DE CARTA": f"{'DIRADM' if escuela == 'Administración de negocios' else 'DIRCONT'} {correlativo}-{fecha.year}",
     "ALUMNOS": nombre,
     "A QUIEN VA DIRIGIDA": nombre_empresa,
-
-    "Prácticas profesionales" if tipo_practicas == "Pre-profesionales" else "Prácticas preprofesionales"
-
-    "TIPO DE CARTA - ASUNTO": ,
+    "TIPO DE CARTA - ASUNTO": "Prácticas profesionales" if tipo_practicas == "Pre-profesionales" else "Prácticas preprofesionales",
     "FECHA": fecha.strftime("%d/%m/%Y")
 }])
 
